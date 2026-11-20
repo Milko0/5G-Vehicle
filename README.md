@@ -9,16 +9,40 @@ picks the closest base station. Both packet types share one FIFO queue and the
 transmission time is S = alpha * d^2, where d is the distance to the serving base station.
 We study the end-to-end delay of the application packets for different V, T and H.
 
+```mermaid
+flowchart TB
+    V["Vehicle<br/>FIFO queue, moves at speed V"]
+    subgraph HW["Highway 0 - 2000 m, one BS every 500 m"]
+        direction LR
+        BS0["bs 0"] --- BS1["bs 1"] --- BS2["bs 2"] --- BS3["bs 3"] --- BS4["bs 4"]
+    end
+    AS["Application Server<br/>end-to-end delay"]
+    MS["Mobility Server<br/>picks the closest BS"]
+
+    V -- "radio to the serving BS<br/>S = alpha * d^2" --> HW
+    HW -- "app packets" --> AS
+    HW -- "handover packets" --> MS
+    V <-. "new serving BS" .- MS
 ```
-                 Application Server        Mobility Server
-                        ^                        ^     |
-                        |  app packets           |     | new serving BS
-                        |                        |     |
-     bs[0] ---- bs[1] ---- bs[2] ---- bs[3] ---- bs[4] |
-                   ^                                   |
-                   |  radio (S = alpha * d^2)          |
-                [vehicle] <----------------------------+
-     0 m ===================================================== 2000 m
+
+What happens to the two kinds of packets:
+
+```mermaid
+sequenceDiagram
+    participant V as Vehicle
+    participant BS as Serving BS
+    participant AS as App Server
+    participant MS as Mobility Server
+
+    Note over V: every T seconds (random)
+    V->>BS: app packet (waits in the FIFO, then takes S)
+    BS->>AS: forward (1 ms)
+    Note over AS: delay = arrival time - generation time
+
+    Note over V: every H seconds
+    V->>BS: handover packet with the current position
+    BS->>MS: forward (1 ms)
+    MS-->>V: new serving BS = closest to the reported position
 ```
 
 ## Folders

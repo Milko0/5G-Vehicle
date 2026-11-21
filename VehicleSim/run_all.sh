@@ -13,7 +13,7 @@ opp_makemake -f --deep -o VehicleSim
 make MODE=release -j8
 
 # 2) run every configuration, 8 runs in parallel
-CONFIGS="Validation_DD1 Validation_MD1 Exponential Lognormal LognormalCV IdealHandover TimeSeries"
+CONFIGS="Validation_DD1 Validation_MD1 Verification_Degeneracy Verification_Consistency Verification_Continuity Exponential Lognormal LognormalCV IdealHandover TimeSeries"
 for CFG in $CONFIGS; do
     echo "=== running $CFG ==="
     opp_runall -j8 ./out/clang-release/VehicleSim -u Cmdenv -c $CFG -s

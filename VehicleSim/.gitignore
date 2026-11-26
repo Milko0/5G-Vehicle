@@ -1,0 +1,6 @@
+out/*
+simulations/results/*
+simulations/General.anf
+src/5G-Connected-Vehicle.exe
+CODEBASE_DOCUMENTATION.md
+src/Makefile

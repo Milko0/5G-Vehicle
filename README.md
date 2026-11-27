@@ -70,7 +70,7 @@ sequenceDiagram
 
 1. Simulations - either:
    - in the OMNeT++ IDE: import `VehicleSim`, build it, run the configs of `simulations/omnetpp.ini`; or
-   - in the OMNeT++ shell: `cd VehicleSim` and `./run_all.sh` (all configs, about 2,900 runs, ~20 minutes on 8 cores;
+   - in the OMNeT++ shell: `cd VehicleSim` and `./run_all.sh` (all configs, about 5,000 runs, ~30 minutes on 8 cores;
      the CSV files are written to `Analysis/data`)
 2. Open `Analysis/analyze_results.ipynb` and run all the cells
 3. Optional: `python make_highway_gif.py` in `Analysis/` for the highway animation
@@ -84,7 +84,8 @@ Python packages: `plotly kaleido pandas numpy imageio nbformat ipykernel`
 | `Verification_*` | D/D/1, kinematics (ideal / real handover), degeneracy (alpha = 0, N = 1), consistency, continuity | 1 each (continuity: 5) |
 | `Validation_MD1` | M/D/1 against Pollaczek-Khinchine, 4 loads x 30 replications | 120 |
 | `Calibration_Warmup` | delay over time from an empty system, to choose the warm-up | 20 |
-| `Exp_Exponential`, `Exp_Lognormal` | H x V x E[T] = 4 x 3 x 3 scenarios, 30 replications each | 1,080 each |
+| `Exp_Exponential`, `Exp_Lognormal` | H x V x E[T] = 4 x 3 x 3 scenarios, 30 replications each, random start position | 1,080 each |
+| `Exp_Exponential_x_0`, `Exp_Lognormal_x_0` | the same scenarios with every replication starting at x = 0 (comparison) | 1,080 each |
 | `Exp_Ideal_Exponential`, `Exp_Ideal_Lognormal` | ideal handover (lower bound), V x E[T] | 270 each |
 | `Exp_ECDF_Exponential`, `Exp_ECDF_Lognormal` | every delay recorded, for the ECDFs | 20 each |
 | `Animation` | one run with the serving BS over time, for the GIF | 1 |
@@ -93,7 +94,10 @@ Python packages: `plotly kaleido pandas numpy imageio nbformat ipykernel`
 
 The experiments start every replication at a random position (`initialPosition = uniform(0m, 10000m)`):
 with x = 0 for every run, the handover packets fell exactly on the cell crossings for many (V, H) pairs
-(see section 8.7 of the notebook).
+(see section 8.7 of the notebook). The same experiments with x = 0 are kept for comparison (section 7.5):
+the two agree for H <= 0.1 s, but for H = 5 s (and 3 scenarios with H = 1 s) they differ significantly, in both
+directions, and x = 0 hides the congestion collapse. A correlogram shows that the replications are independent
+in both experiments, while the packets of one run are strongly correlated (lag-1 autocorrelation 0.99).
 
 - The best handover period is H = 1 s in all 18 combinations of distribution, load and speed.
 - Too small H (0.02 s): handover packets overload the queue, mostly at the cell edges where S is largest

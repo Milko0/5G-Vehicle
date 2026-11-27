@@ -19,7 +19,7 @@ cd ../simulations
 TESTS="Verification_DD1 Verification_Kinematics Verification_Kinematics_Handover Verification_Degeneracy_Alpha0
        Verification_Degeneracy_N1 Verification_Consistency_Base Verification_Consistency_scaled Verification_Continuity
        Validation_MD1 Calibration_Warmup"
-EXPERIMENTS="Exp_Exponential Exp_Lognormal Exp_Ideal_Exponential Exp_Ideal_Lognormal Exp_ECDF_Exponential Exp_ECDF_Lognormal"
+EXPERIMENTS="Exp_Exponential Exp_Lognormal Exp_Ideal_Exponential Exp_Ideal_Lognormal Exp_ECDF_Exponential Exp_ECDF_Lognormal Animation"
 for CFG in $TESTS $EXPERIMENTS; do
     echo "=== running $CFG ==="
     opp_runall -j8 ../src/5G-Connected-Vehicle -u Cmdenv -n .:../src -c $CFG -s

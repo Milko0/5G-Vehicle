@@ -12,7 +12,7 @@ void RadioInterface::initialize()
 {
     BSRoadOffset = par("BSRoadOffset").doubleValue();
     alpha = par("alpha").doubleValue();
-    // The MobilitySystem is a sibling module: we take its pointer once (cross-module call)
+    // Pointer to the MobilitySystem module for accessing vehicle position and base station ID
     mobilitySystem = check_and_cast<MobilitySystem *>(getParentModule()->getSubmodule("mobilitySystem"));
 
     // Initialize the packet queue and the end transmission event

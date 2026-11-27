@@ -11,7 +11,7 @@ void HandoverSystem::initialize()
 {
     H = par("H").doubleValue();
     handoverTimer = new cMessage("handoverTimer");
-    // The MobilitySystem is a sibling module: we take its pointer once (cross-module call)
+    // Pointer to the MobilitySystem module for accessing vehicle position and base station ID
     mobilitySystem = check_and_cast<MobilitySystem *>(getParentModule()->getSubmodule("mobilitySystem"));
 
     // Schedule the first handover packet if H is greater than 0 and not in ideal handover mode
